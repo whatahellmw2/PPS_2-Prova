@@ -31,7 +31,7 @@ import javax.swing.JOptionPane;
 public class PrincipalPresenter {
     private PrincipalView view;
     private PrincipalState state;
-    private String path;
+    private String folder;
     private Imagem imagem;
     private Queue<MementoImagem> historico;
     //private String ImagemAtual;
@@ -91,9 +91,9 @@ public class PrincipalPresenter {
                 BuscaImagensPresenter presenter = new BuscaImagensPresenter();
                 String[] retorno=presenter.exibirImagem();
                 String nomeImagem=retorno[1];
-                path=retorno[0];        
+                folder=retorno[0];        
                 
-                imagem = new ProxyImage(nomeImagem, view.getjLabelImagem().getWidth(), view.getjLabelImagem().getHeight());
+                imagem = new ProxyImage(nomeImagem, view.getjLabelImagem().getWidth(), view.getjLabelImagem().getHeight(),folder);
                 
                 if(imagem.visualizarImagem(view)){
                     view.getjButtonCompartilhar().setEnabled(true);
@@ -112,27 +112,7 @@ public class PrincipalPresenter {
                         JOptionPane.showMessageDialog(null, "Solicitação Enviada");
                     }
                 }
-//                if(presenter.verificarAcesso()){
-//                    view.getjButtonCompartilhar().setEnabled(true);
-//                    view.getjButtonExcluir().setEnabled(true);
-//                    ImageIcon icon = new ImageIcon(".\\imagens\\comida\\"+nomeImagem);                
-//                    Image image = icon.getImage().getScaledInstance(view.getjLabelImagem().getWidth(), view.getjLabelImagem().getHeight(), Image.SCALE_SMOOTH);
-//                    view.getjLabelImagem().setIcon(new ImageIcon(image));
-//                    ImagemAtual=nomeImagem;
-//                }else{
-//                    view.getjButtonCompartilhar().setEnabled(false);
-//                    view.getjButtonExcluir().setEnabled(false);
-//                   Object[] options= new Object[]{"Solicitar Acesso","Cancelar"                       
-//                   };
-//                    int opcao=JOptionPane.showOptionDialog(null, "Você não tem acesso a esta Imagem", "Atenção", 0, 0, null,options , state);
-//                    
-//                    if(opcao==0){
-//                        IDAONotificacao dao = new NotificacaoQuerys();
-//                        dao.solicitarPermissao(nomeImagem,"Solicita permissão para visualizar a Imagem" );
-//                        JOptionPane.showMessageDialog(null, "Solicitação Enviada");
-//                    }
-//                }
-//                
+
             }
         });
     }
@@ -169,9 +149,9 @@ public class PrincipalPresenter {
                 int nivel=dao.verificarNivelDePermissão(imagem.getPath(),UsuarioLogado.getInstancia().getLogin());
                 if(nivel==3||UsuarioLogado.getInstancia().getNivel().equals("administrador")){
                     dao.excluirImagem(imagem.getPath());
-                    historico.add(dao.salvar(imagem.getPath()));
+                    historico.add(dao.salvar(imagem.getPath(),folder));
                     view.getjButtonDesfazer().setEnabled(true);
-                    MudaVisibilidadeArquivo visibilidade=new MudaVisibilidadeArquivo(path+imagem.getPath());
+                    MudaVisibilidadeArquivo visibilidade=new MudaVisibilidadeArquivo(folder+imagem.getPath());
                     visibilidade.setHiddenAttrib();
                     view.getjLabelImagem().setIcon(null);
                     JOptionPane.showMessageDialog(null, "Imagem Excluída");

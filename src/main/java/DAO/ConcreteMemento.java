@@ -11,11 +11,12 @@ package DAO;
  */
 public class ConcreteMemento implements MementoImagem{
    private String path;
-
-    public ConcreteMemento(String path) {
+   private String folder;
+    public ConcreteMemento(String path, String folder) {
         this.path = path;
+        this.folder=folder;
     }
-    public String getState(){
-        return path;
+    public String[] getState(){
+        return new String[]{path,folder};
     }
 }

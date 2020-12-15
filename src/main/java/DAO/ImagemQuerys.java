@@ -218,8 +218,8 @@ public class ImagemQuerys implements IDAOImagens{
     }
 
     @Override
-    public MementoImagem salvar(String path) {
-       ConcreteMemento memento= new ConcreteMemento(path);
+    public MementoImagem salvar(String path,String folder) {
+       ConcreteMemento memento= new ConcreteMemento(path,folder);
         return memento;
     }
 
@@ -235,14 +235,14 @@ public class ImagemQuerys implements IDAOImagens{
                             ") VALUES(?)"+
                              ";";
             PreparedStatement preparedStmt = conexao.criarPreparedStatement(sqlInsert);            
-            preparedStmt.setString(1, snapshot.getState());
+            preparedStmt.setString(1, snapshot.getState()[0]);
          
             int resultado = preparedStmt.executeUpdate();
             if(resultado != 1 ){
                 System.out.println("erro na query restauração 1: \n");
             }
             preparedStmt.close();
-            MudaVisibilidadeArquivo visibilidade=new MudaVisibilidadeArquivo(".\\imagens\\comida\\"+snapshot.getState());
+            MudaVisibilidadeArquivo visibilidade=new MudaVisibilidadeArquivo(snapshot.getState()[1]+snapshot.getState()[0]);
             visibilidade.setHiddenAttribFalse();
         }            
         catch(SQLException e){
