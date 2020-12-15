@@ -23,7 +23,7 @@ public class ConexaoSQLite {
     public boolean conectar(){
         try{
             Class.forName("org.sqlite.JDBC");
-            String url = "jdbc:sqlite:.\\banco\\sqliteProva.db";
+            String url = "jdbc:sqlite:.\\banco\\sqliteProvaVazio.db";
             this.conexao = DriverManager.getConnection(url);
         }catch(SQLException e){
             System.err.println("método conectar: \n"+e.getMessage()+e.fillInStackTrace());

@@ -7,6 +7,7 @@ package Presenter.manterUsuarios;
 
 import DAO.IDAOUsuario;
 import DAO.UsuarioQuerys;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -36,7 +37,8 @@ public class ManterUsuariosEditarSatate extends ManterUsuariosState{
     public void confirmar() {
         IDAOUsuario dao = new UsuarioQuerys();
         dao.editarUsuario(this.login,this.presenter.getView().getButtonGroup2().getSelection().getActionCommand());               
-        
+        JOptionPane.showMessageDialog(null, "Usuario Editado");
+        this.presenter.getView().dispose();
         }
     
 }

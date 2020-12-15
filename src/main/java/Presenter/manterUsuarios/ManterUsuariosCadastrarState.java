@@ -7,6 +7,7 @@ package Presenter.manterUsuarios;
 
 import DAO.IDAOUsuario;
 import DAO.UsuarioQuerys;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -24,7 +25,10 @@ public class ManterUsuariosCadastrarState extends ManterUsuariosState{
         dao.addUsuario(this.presenter.getView().getjTextFieldLogin().getText(), 
                 "",
                 this.presenter.getView().getButtonGroup2().getSelection().getActionCommand());
-        System.out.println("Cadastrando"+this.presenter.getView().getButtonGroup2().getSelection().getActionCommand());
+        //System.out.println("Cadastrando"+this.presenter.getView().getButtonGroup2().getSelection().getActionCommand());
+        
+        JOptionPane.showMessageDialog(null, "Usuario Cadastrado");
+        this.presenter.getView().dispose();
     }
     
 }

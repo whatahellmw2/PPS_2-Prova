@@ -22,7 +22,7 @@ public class NotificacoesAdminState extends NotificacoesState{
     public NotificacoesAdminState(NotificacoesPresenter presenter) {
         super(presenter);
     }
-
+    
     @Override
     public void lerNotificacao() {
             int row2= this.presenter.getView().getjTableNotificacoes().getSelectedRow();
@@ -47,12 +47,24 @@ public class NotificacoesAdminState extends NotificacoesState{
                     }
                     JOptionPane.showMessageDialog(null, "Permissao Concedida");
                     dao.excluirNotificacaoRedundante(descricao, remetente, path);
-                   preencherNotificacoes();
+                    preencherNotificacoes();
                    
                 
                 }
             });
-           
+           this.presenter.getView().getjButtonNegar().addActionListener(new java.awt.event.ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int row=presenter.getView().getjTableNotificacoes().getSelectedRow();    
+                    String descricao= (String)presenter.getView().getjTableNotificacoes().getValueAt(row, 0)
+                          ,remetente=(String)presenter.getView().getjTableNotificacoes().getValueAt(row, 2)
+                          ,path=(String)presenter.getView().getjTableNotificacoes().getValueAt(row, 1);
+                    
+                    IDAONotificacao dao = new NotificacaoQuerys();
+                    dao.lerNotificacao(descricao,remetente,path);
+                    JOptionPane.showMessageDialog(null, "Permissao Negada");
+                }
+           });
                 
             
         

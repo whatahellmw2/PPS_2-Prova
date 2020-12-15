@@ -7,6 +7,7 @@ package Presenter.manterUsuarios;
 
 import DAO.IDAOUsuario;
 import DAO.UsuarioQuerys;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -35,6 +36,8 @@ public class ManterUsuariosExcluirState extends ManterUsuariosState{
     public void confirmar() {
         IDAOUsuario dao = new UsuarioQuerys();
         dao.excluirUsuario(this.login);
+        JOptionPane.showMessageDialog(null, "Usuario Excluido");
+        this.presenter.getView().dispose();
     }
     
 }
