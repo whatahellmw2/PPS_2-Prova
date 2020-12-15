@@ -5,14 +5,28 @@
  */
 package Presenter.principal;
 
+import DAO.IDAOImagens;
+import DAO.IDAONotificacao;
+import DAO.ImagemQuerys;
+import DAO.NotificacaoQuerys;
+import Model.imagem.Imagem;
+import Model.imagem.ProxyImage;
 import Model.usuario.UsuarioLogado;
 import Presenter.imagens.BuscaImagensPresenter;
 import Presenter.manterUsuarios.VisualizarUsuariosPresenter;
+import Presenter.notificacoes.NotificacoesAdminState;
+import Presenter.notificacoes.NotificacoesComumState;
+import Presenter.notificacoes.NotificacoesPresenter;
 import View.PrincipalView;
+import java.awt.Color;
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.lang.reflect.Field;
+import java.net.URL;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,6 +35,8 @@ import javax.swing.ImageIcon;
 public class PrincipalPresenter {
     private PrincipalView view;
     private PrincipalState state;
+    private Imagem imagem;
+    //private String ImagemAtual;
     public PrincipalPresenter() {
         this.view = new PrincipalView();
         prencherRodaPe();
@@ -30,12 +46,18 @@ public class PrincipalPresenter {
         }else{
             this.state= new PrincipalAdminState(this);
         }
+        
+        obterNotificações();
         manterUsuarios();
         buscarImagens();
+        compartilharImagem();
+        excluirImagem();
+        exibirNotificacoes();
         this.view.setLocationRelativeTo(null);
         this.view.setVisible(true);
        
     }
+    
     public void changeState(PrincipalState state){
         this.state=state;
     }
@@ -48,6 +70,7 @@ public class PrincipalPresenter {
     public PrincipalView getView() {
         return view;
     }
+    
     public void manterUsuarios(){
         this.view.getjMenuItemManterUsuarios().addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -57,19 +80,129 @@ public class PrincipalPresenter {
         });
         
     }
+    
     public void buscarImagens(){
         this.view.getjMenuItemBuscarImagens().addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                    
                 BuscaImagensPresenter presenter = new BuscaImagensPresenter();
                 String nomeImagem=presenter.exibirImagem();
+                imagem = new ProxyImage(nomeImagem, view.getjLabelImagem().getWidth(), view.getjLabelImagem().getHeight());
                 
-                
-                ImageIcon icon = new ImageIcon(".\\imagens\\comida\\"+nomeImagem);
-                
-                Image image = icon.getImage().getScaledInstance(view.getjLabelImagem().getWidth(), view.getjLabelImagem().getHeight(), Image.SCALE_SMOOTH);
-                view.getjLabelImagem().setIcon(new ImageIcon(image));
+                if(imagem.visualizarImagem(view)){
+                    view.getjButtonCompartilhar().setEnabled(true);
+                    view.getjButtonExcluir().setEnabled(true);
+                    imagem.visualizarImagem(view);
+                }else{
+                    view.getjButtonCompartilhar().setEnabled(false);
+                    view.getjButtonExcluir().setEnabled(false);
+                   Object[] options= new Object[]{"Solicitar Acesso","Cancelar"                       
+                   };
+                    int opcao=JOptionPane.showOptionDialog(null, "Você não tem acesso a esta Imagem", "Atenção", 0, 0, null,options , state);
+                    
+                    if(opcao==0){
+                        IDAONotificacao dao = new NotificacaoQuerys();
+                        dao.solicitarPermissao(nomeImagem,"Solicita permissão para visualizar a Imagem" );
+                        JOptionPane.showMessageDialog(null, "Solicitação Enviada");
+                    }
+                }
+//                if(presenter.verificarAcesso()){
+//                    view.getjButtonCompartilhar().setEnabled(true);
+//                    view.getjButtonExcluir().setEnabled(true);
+//                    ImageIcon icon = new ImageIcon(".\\imagens\\comida\\"+nomeImagem);                
+//                    Image image = icon.getImage().getScaledInstance(view.getjLabelImagem().getWidth(), view.getjLabelImagem().getHeight(), Image.SCALE_SMOOTH);
+//                    view.getjLabelImagem().setIcon(new ImageIcon(image));
+//                    ImagemAtual=nomeImagem;
+//                }else{
+//                    view.getjButtonCompartilhar().setEnabled(false);
+//                    view.getjButtonExcluir().setEnabled(false);
+//                   Object[] options= new Object[]{"Solicitar Acesso","Cancelar"                       
+//                   };
+//                    int opcao=JOptionPane.showOptionDialog(null, "Você não tem acesso a esta Imagem", "Atenção", 0, 0, null,options , state);
+//                    
+//                    if(opcao==0){
+//                        IDAONotificacao dao = new NotificacaoQuerys();
+//                        dao.solicitarPermissao(nomeImagem,"Solicita permissão para visualizar a Imagem" );
+//                        JOptionPane.showMessageDialog(null, "Solicitação Enviada");
+//                    }
+//                }
+//                
             }
         });
+    }
+    
+    public void compartilharImagem(){
+        this.view.getjButtonCompartilhar().addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {                
+                IDAOImagens dao = new ImagemQuerys();
+                System.out.println("path"+imagem.getPath());
+                int nivel=dao.verificarNivelDePermissão(imagem.getPath(),UsuarioLogado.getInstancia().getLogin());
+                
+                if(nivel>=2||UsuarioLogado.getInstancia().getNivel().equals("administrador")){
+                    CompartilharPresenter presenter = new CompartilharPresenter(imagem.getPath());
+                    
+                }else{
+                    Object[] options= new Object[]{"Solicitar Acesso","Cancelar"};
+                    int opcao=JOptionPane.showOptionDialog(null, "Você não tem permissão para compartilhar esta imagem", "Atenção", 0, 0, null,options , state);
+                     if(opcao==0){
+                         IDAONotificacao dao2 = new NotificacaoQuerys();
+                         dao2.solicitarPermissao(imagem.getPath(),"Solicitar permissão para compartilhar a Imagem" );
+                         JOptionPane.showMessageDialog(null, "Solicitação Enviada");
+                    }
+                }
+            }
+        });
+    }
+    
+    public void excluirImagem(){
+        this.view.getjButtonExcluir().addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                IDAOImagens dao = new ImagemQuerys();
+                int nivel=dao.verificarNivelDePermissão(imagem.getPath(),UsuarioLogado.getInstancia().getLogin());
+                if(nivel==3||UsuarioLogado.getInstancia().getNivel().equals("administrador")){
+                    dao.excluirImagem(imagem.getPath());
+                    JOptionPane.showMessageDialog(null, "Imagem Excluída");
+                }else{
+                    Object[] options= new Object[]{"Solicitar Acesso","Cancelar"};
+                    int opcao=JOptionPane.showOptionDialog(null, "Você não tem permissão para excluir esta imagem", "Atenção", 0, 0, null,options , state);
+                     if(opcao==0){
+                        IDAONotificacao dao2 = new NotificacaoQuerys();
+                        dao2.solicitarPermissao(imagem.getPath(),"Solicita permissão para excluir a Imagem" );
+                        JOptionPane.showMessageDialog(null, "Solicitação Enviada");
+                    }
+                    
+                }
+            }
+        });
+    }
+    
+    public void exibirNotificacoes(){
+        this.view.getjButtonNotificacoes().addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(UsuarioLogado.getInstancia().getNivel().equals("comum")){      
+                    NotificacoesPresenter presenter = new NotificacoesPresenter(false);
+                }else{
+                    NotificacoesPresenter presenter = new NotificacoesPresenter(true);
+                }
+                
+            }
+        });
+    }
+    
+    public void obterNotificações(){
+        IDAONotificacao dao = new NotificacaoQuerys();        
+        if(dao.obterNotificacoes().size()>0){
+            Color color = new Color(219, 112, 31);
+            this.view.getjButtonNotificacoes().setBackground(color);
+            this.view.getjButtonNotificacoes().setText("Notificações("+dao.obterNotificacoes().size()+")");
+        }else{
+            Color color = new Color(171,202,219);
+            this.view.getjButtonNotificacoes().setBackground(color);
+            this.view.getjButtonNotificacoes().setText("Notificações");
+        }
     }
 }

@@ -38,9 +38,10 @@ public class PrincipalView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButtonCompartilhar = new javax.swing.JButton();
+        jButtonExcluir = new javax.swing.JButton();
         jLabelImagem = new javax.swing.JLabel();
+        jLabelImagem.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jPanelRodaPe = new javax.swing.JPanel();
         jPanelRodaPe.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jLabelNome = new javax.swing.JLabel();
@@ -56,9 +57,11 @@ public class PrincipalView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Compartilhar");
+        jButtonCompartilhar.setText("Compartilhar");
+        jButtonCompartilhar.setEnabled(false);
 
-        jButton2.setText("Excluir");
+        jButtonExcluir.setText("Excluir");
+        jButtonExcluir.setEnabled(false);
 
         jLabelImagem.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -120,9 +123,9 @@ public class PrincipalView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(jButtonCompartilhar)
                         .addGap(27, 27, 27)
-                        .addComponent(jButton2))
+                        .addComponent(jButtonExcluir))
                     .addComponent(jLabelImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -131,8 +134,8 @@ public class PrincipalView extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButtonCompartilhar)
+                    .addComponent(jButtonExcluir))
                 .addGap(28, 28, 28)
                 .addComponent(jLabelImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -204,11 +207,19 @@ public class PrincipalView extends javax.swing.JFrame {
         return jLabelImagem;
     }
 
+    public JButton getjButtonCompartilhar() {
+        return jButtonCompartilhar;
+    }
+
+    public JButton getjButtonExcluir() {
+        return jButtonExcluir;
+    }
+
  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonCompartilhar;
+    private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonNotificacoes;
     private javax.swing.JLabel jLabelImagem;
     private javax.swing.JLabel jLabelNivel;

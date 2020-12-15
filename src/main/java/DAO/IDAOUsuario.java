@@ -19,4 +19,6 @@ public interface IDAOUsuario {
       public  ArrayList<UsuarioGenerico> buscarUsuarios();
       public void editarUsuario(String login, String nivel);
       public void excluirUsuario(String login);
+      public ArrayList<UsuarioGenerico> buscarUsuariosPorNivel(String nivel);
+     
 }

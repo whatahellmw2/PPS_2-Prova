@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package View;
+package Model.imagem;
+
+import Presenter.manterUsuarios.VisualizarUsuariosPresenter;
+import View.PrincipalView;
 
 /**
  *
  * @author Thiago
  */
-public class JGradientButton {
-    
+public interface Imagem {
+   public boolean visualizarImagem(PrincipalView view);
+   public String getPath();
 }

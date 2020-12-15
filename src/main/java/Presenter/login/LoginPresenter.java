@@ -35,10 +35,12 @@ public class LoginPresenter {
             public void actionPerformed(ActionEvent e) {
                 IDAOUsuario dao = new UsuarioQuerys();
                 if(dao.isEmpty()){
-                    FactoryUsuario factory = new Logado();
-                    UsuarioGenerico usuario = factory.criarUsuario(view.getjTextFieldNomeUsuario().getText(), view.getjTextFieldSenha().getText(), "administrador");
-                    dao.addUsuario(usuario.getLogin(), usuario.getSenha(), usuario.getNivel());
-                    new PrincipalPresenter();
+//                    FactoryUsuario factory = new Logado();
+//                    UsuarioGenerico usuario = factory.criarUsuario(view.getjTextFieldNomeUsuario().getText(), view.getjTextFieldSenha().getText(), "administrador");
+//                    dao.addUsuario(usuario.getLogin(), usuario.getSenha(), usuario.getNivel());
+                      
+                      CadastroPresenter presenter = new CadastroPresenter();
+                      new PrincipalPresenter();                      
                 }else{
                     UsuarioGenerico usuario=dao.efetuarLogin(view.getjTextFieldNomeUsuario().getText(), view.getjTextFieldSenha().getText());
                     if(usuario!=null){

@@ -226,5 +226,49 @@ public class UsuarioQuerys implements IDAOUsuario{
         }
         //return true;
     }
-    
+
+    @Override
+    public ArrayList<UsuarioGenerico> buscarUsuariosPorNivel(String nivel) {
+          ConexaoSQLite conexao= new ConexaoSQLite();
+          
+        boolean conectou=false;
+        ResultSet resultSet = null;
+        PreparedStatement stmt = null;
+        
+        try{
+            conectou=conexao.conectar();            
+            String query = "SELECT * FROM USUARIOS WHERE NIVEL = ? AND LOGIN <> ?";
+            stmt = conexao.criarPreparedStatement(query);
+            stmt.setString(1, nivel);
+            stmt.setString(2, UsuarioLogado.getInstancia().getLogin());
+            resultSet = stmt.executeQuery();
+            ArrayList<UsuarioGenerico> usuarios= new ArrayList();
+            while(resultSet.next()){                                         
+                if(resultSet.getString("NIVEL").equals("comum")){
+                  usuarios.add(new Comum().criarUsuario(resultSet.getString("LOGIN"),
+                          resultSet.getString("SENHA"),
+                          resultSet.getString("NIVEL")));
+                }else
+                {
+                    usuarios.add(new Administrador().criarUsuario(resultSet.getString("LOGIN"),
+                          resultSet.getString("SENHA"),
+                          resultSet.getString("NIVEL")));
+                }
+            }
+           return usuarios;
+        }catch(SQLException e){
+            System.err.println("ERRO QUERY LOGIN 3: \n"+e.fillInStackTrace()); 
+            return null;
+        }finally{
+            try{
+                resultSet.close();
+                stmt.close();
+            }catch(SQLException e){
+                System.out.println("ERRO QUERY LOGIN4: \n"+e.fillInStackTrace()); 
+            }
+            if(conectou){
+                conexao.desconectar();
+            }
+        }
+    }
 }

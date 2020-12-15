@@ -11,4 +11,9 @@ package DAO;
  */
 public interface IDAOImagens {
     public boolean verificarAcesso(String nomeImagem);
+    public int verificarNivelDePermissão(String nomeImagem,String nomeUsuario);
+    public void adicionarAcesso(String nomeImagem,String nomeUsuario);
+    public void excluirImagem(String nomeImagem);
+    public void adicionarPermissão(String nomeImagem,String nomeUsuarios, int nivel);
+    public void alterarNivelPermissão(String nomeImagem,String nomeUsuarios, int nivel);
 }
