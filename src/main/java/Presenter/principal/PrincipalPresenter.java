@@ -54,6 +54,7 @@ public class PrincipalPresenter {
         excluirImagem();
         desfazer();
         exibirNotificacoes();
+        editarConta();
         this.view.setLocationRelativeTo(null);
         this.view.setVisible(true);
        
@@ -230,5 +231,16 @@ public class PrincipalPresenter {
         
         this.view.getjButtonNotificacoes().revalidate();
         this.view.update(this.view.getjButtonNotificacoes().getGraphics());
+    }
+    
+    public void editarConta(){
+        this.view.getjMenuItemConta().addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ContaPresenter presenter = new ContaPresenter();
+            }
+        });
+        
+       
     }
 }

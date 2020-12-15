@@ -271,4 +271,30 @@ public class UsuarioQuerys implements IDAOUsuario{
             }
         }
     }
+
+    @Override
+    public void mudarSenha(String senha) {
+        ConexaoSQLite conexao= new ConexaoSQLite();
+        boolean conectou = false;
+        try{              
+            conectou=conexao.conectar();            
+            String sqlUpdate = "UPDATE USUARIOS SET SENHA = ?"
+                    + "WHERE LOGIN = ?";             
+            
+            PreparedStatement preparedStmt = conexao.criarPreparedStatement(sqlUpdate);
+            if(preparedStmt==null){
+                System.out.println("editar usuario nao criou o stmt");
+            }
+            preparedStmt.setString(1,senha);
+            preparedStmt.setString(2,UsuarioLogado.getInstancia().getLogin());                
+            preparedStmt.executeUpdate();
+            preparedStmt.close();
+        }            
+        catch(SQLException e){
+            System.err.println("sql deu ruim");
+        }finally{
+            if(conectou)
+                conexao.desconectar();
+        }
+    }
 }

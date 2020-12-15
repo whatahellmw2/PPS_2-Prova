@@ -53,8 +53,8 @@ public class PrincipalView extends javax.swing.JFrame {
         jMenuItemBuscarImagens = new javax.swing.JMenuItem();
         jMenuUsuarios = new javax.swing.JMenu();
         jMenuItemManterUsuarios = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuConta = new javax.swing.JMenu();
+        jMenuItemConta = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -108,12 +108,13 @@ public class PrincipalView extends javax.swing.JFrame {
         jMenuItemManterUsuarios.setText("Manter Usuários");
         jMenuUsuarios.add(jMenuItemManterUsuarios);
 
-        jMenuItem2.setText("jMenuItem2");
-        jMenuUsuarios.add(jMenuItem2);
-
         jMenuBar1.add(jMenuUsuarios);
 
         jMenuConta.setText("Conta");
+
+        jMenuItemConta.setText("Editar Conta");
+        jMenuConta.add(jMenuItemConta);
+
         jMenuBar1.add(jMenuConta);
 
         setJMenuBar(jMenuBar1);
@@ -226,6 +227,10 @@ public class PrincipalView extends javax.swing.JFrame {
         return jButtonDesfazer;
     }
 
+    public JMenuItem getjMenuItemConta() {
+        return jMenuItemConta;
+    }
+
  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -239,8 +244,8 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuConta;
     private javax.swing.JMenu jMenuImagens;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItemBuscarImagens;
+    private javax.swing.JMenuItem jMenuItemConta;
     private javax.swing.JMenuItem jMenuItemManterUsuarios;
     private javax.swing.JMenu jMenuUsuarios;
     private javax.swing.JPanel jPanelRodaPe;

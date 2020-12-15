@@ -26,17 +26,19 @@
                 <Property name="text" type="java.lang.String" value="Manter Usu&#xe1;rios"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="jMenuItem2"/>
-              </Properties>
-            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenuConta">
           <Properties>
             <Property name="text" type="java.lang.String" value="Conta"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemConta">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Editar Conta"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
         </Menu>
       </SubComponents>
     </Menu>
