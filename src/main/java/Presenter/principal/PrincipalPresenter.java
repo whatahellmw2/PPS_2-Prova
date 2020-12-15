@@ -8,24 +8,23 @@ package Presenter.principal;
 import DAO.IDAOImagens;
 import DAO.IDAONotificacao;
 import DAO.ImagemQuerys;
+import DAO.MementoImagem;
 import DAO.NotificacaoQuerys;
 import Model.imagem.Imagem;
 import Model.imagem.ProxyImage;
 import Model.usuario.UsuarioLogado;
 import Presenter.imagens.BuscaImagensPresenter;
 import Presenter.manterUsuarios.VisualizarUsuariosPresenter;
-import Presenter.notificacoes.NotificacoesAdminState;
-import Presenter.notificacoes.NotificacoesComumState;
 import Presenter.notificacoes.NotificacoesPresenter;
 import View.PrincipalView;
+import business.MudaVisibilidadeArquivo;
 import java.awt.Color;
-
-import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.lang.reflect.Field;
-import java.net.URL;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -36,11 +35,14 @@ public class PrincipalPresenter {
     private PrincipalView view;
     private PrincipalState state;
     private Imagem imagem;
+    private Queue<MementoImagem> historico;
     //private String ImagemAtual;
     public PrincipalPresenter() {
         this.view = new PrincipalView();
+        historico= new LinkedList<>();
+       
         prencherRodaPe();
-        
+       
         if(UsuarioLogado.getInstancia().getNivel().equals("comum")){
             this.state= new PrincipalComumState(this);
         }else{
@@ -52,6 +54,7 @@ public class PrincipalPresenter {
         buscarImagens();
         compartilharImagem();
         excluirImagem();
+        desfazer();
         exibirNotificacoes();
         this.view.setLocationRelativeTo(null);
         this.view.setVisible(true);
@@ -164,6 +167,11 @@ public class PrincipalPresenter {
                 int nivel=dao.verificarNivelDePermissão(imagem.getPath(),UsuarioLogado.getInstancia().getLogin());
                 if(nivel==3||UsuarioLogado.getInstancia().getNivel().equals("administrador")){
                     dao.excluirImagem(imagem.getPath());
+                    historico.add(dao.salvar(imagem.getPath()));
+                    view.getjButtonDesfazer().setEnabled(true);
+                    MudaVisibilidadeArquivo visibilidade=new MudaVisibilidadeArquivo(".\\imagens\\comida\\"+imagem.getPath());
+                    visibilidade.setHiddenAttrib();
+                    view.getjLabelImagem().setIcon(null);
                     JOptionPane.showMessageDialog(null, "Imagem Excluída");
                 }else{
                     Object[] options= new Object[]{"Solicitar Acesso","Cancelar"};
@@ -175,6 +183,19 @@ public class PrincipalPresenter {
                     }
                     
                 }
+            }
+        });
+    }
+    
+    public void desfazer(){
+        this.view.getjButtonDesfazer().addActionListener( new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                IDAOImagens dao = new ImagemQuerys();
+                dao.restaurar(historico.poll());
+                if(historico.isEmpty())
+                    view.getjButtonDesfazer().setEnabled(false);
+                JOptionPane.showMessageDialog(null, "imagem restaurada");
             }
         });
     }

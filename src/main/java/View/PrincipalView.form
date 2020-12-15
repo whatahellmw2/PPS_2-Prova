@@ -72,6 +72,8 @@
                       <Component id="jButtonCompartilhar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                       <Component id="jButtonExcluir" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jButtonDesfazer" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jLabelImagem" alignment="0" min="-2" pref="615" max="-2" attributes="0"/>
               </Group>
@@ -86,6 +88,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jButtonCompartilhar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonExcluir" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonDesfazer" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
               <Component id="jLabelImagem" min="-2" pref="332" max="-2" attributes="0"/>
@@ -167,5 +170,11 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="jButtonDesfazer">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Desfazer"/>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

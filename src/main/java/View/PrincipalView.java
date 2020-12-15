@@ -47,6 +47,7 @@ public class PrincipalView extends javax.swing.JFrame {
         jLabelNome = new javax.swing.JLabel();
         jLabelNivel = new javax.swing.JLabel();
         jButtonNotificacoes = new JGradientButton();
+        jButtonDesfazer = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuImagens = new javax.swing.JMenu();
         jMenuItemBuscarImagens = new javax.swing.JMenuItem();
@@ -92,6 +93,9 @@ public class PrincipalView extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jButtonDesfazer.setText("Desfazer");
+        jButtonDesfazer.setEnabled(false);
+
         jMenuImagens.setText("Imagens");
 
         jMenuItemBuscarImagens.setText("Buscar");
@@ -125,7 +129,9 @@ public class PrincipalView extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonCompartilhar)
                         .addGap(27, 27, 27)
-                        .addComponent(jButtonExcluir))
+                        .addComponent(jButtonExcluir)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonDesfazer))
                     .addComponent(jLabelImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -135,7 +141,8 @@ public class PrincipalView extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCompartilhar)
-                    .addComponent(jButtonExcluir))
+                    .addComponent(jButtonExcluir)
+                    .addComponent(jButtonDesfazer))
                 .addGap(28, 28, 28)
                 .addComponent(jLabelImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -215,10 +222,15 @@ public class PrincipalView extends javax.swing.JFrame {
         return jButtonExcluir;
     }
 
+    public JButton getjButtonDesfazer() {
+        return jButtonDesfazer;
+    }
+
  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCompartilhar;
+    private javax.swing.JButton jButtonDesfazer;
     private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonNotificacoes;
     private javax.swing.JLabel jLabelImagem;

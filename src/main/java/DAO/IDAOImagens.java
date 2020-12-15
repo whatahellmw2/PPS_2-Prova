@@ -16,4 +16,6 @@ public interface IDAOImagens {
     public void excluirImagem(String nomeImagem);
     public void adicionarPermissão(String nomeImagem,String nomeUsuarios, int nivel);
     public void alterarNivelPermissão(String nomeImagem,String nomeUsuarios, int nivel);
+    public MementoImagem salvar(String path);
+    public void restaurar(MementoImagem memento);
 }

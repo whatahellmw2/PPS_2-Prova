@@ -9,6 +9,7 @@ import Model.usuario.Administrador;
 import Model.usuario.Comum;
 import Model.usuario.UsuarioGenerico;
 import Model.usuario.UsuarioLogado;
+import business.MudaVisibilidadeArquivo;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +20,8 @@ import java.util.ArrayList;
  * @author Thiago
  */
 public class ImagemQuerys implements IDAOImagens{
-
+    
+    
     @Override
     public boolean verificarAcesso(String nomeImagem) {
         ConexaoSQLite conexao= new ConexaoSQLite();
@@ -217,6 +219,44 @@ public class ImagemQuerys implements IDAOImagens{
                 conexao.desconectar();
         }
     }
+
+    @Override
+    public MementoImagem salvar(String path) {
+       ConcreteMemento memento= new ConcreteMemento(path);
+        return memento;
+    }
+
+    @Override
+    public void restaurar(MementoImagem memento) {
+        ConcreteMemento  snapshot=(ConcreteMemento)memento;
+         ConexaoSQLite conexao= new ConexaoSQLite();
+              boolean conectou = false;        
+        try{
+            conectou=conexao.conectar();
+            String sqlInsert = "INSERT INTO IMAGEM(" +                            
+                            "PATH"+
+                            ") VALUES(?)"+
+                             ";";
+            PreparedStatement preparedStmt = conexao.criarPreparedStatement(sqlInsert);            
+            preparedStmt.setString(1, snapshot.getState());
+         
+            int resultado = preparedStmt.executeUpdate();
+            if(resultado != 1 ){
+                System.out.println("erro na query restauração 1: \n");
+            }
+            preparedStmt.close();
+            MudaVisibilidadeArquivo visibilidade=new MudaVisibilidadeArquivo(".\\imagens\\comida\\"+snapshot.getState());
+            visibilidade.setHiddenAttribFalse();
+        }            
+        catch(SQLException e){
+            System.err.println("erro na query de adicionar acesso2: \n"+e.fillInStackTrace());
+        }finally{
+            if(conectou)
+                conexao.desconectar();
+        }
+    }
     
+ 
+   
     
 }
