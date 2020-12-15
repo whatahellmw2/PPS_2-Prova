@@ -104,9 +104,10 @@ public class NotificacaoQuerys implements IDAONotificacao{
         
         try{
             conectou=conexao.conectar();            
-            String query = "SELECT * FROM NOTIFICACOES WHERE DESTINATARIO = ? AND (STATUS IS NULL OR STATUS=0)";
+            String query = "SELECT * FROM NOTIFICACOES WHERE DESTINATARIO = ? AND (STATUS IS NULL OR STATUS=?)";
             stmt = conexao.criarPreparedStatement(query);
             stmt.setString(1, UsuarioLogado.getInstancia().getLogin());
+            stmt.setBoolean(2, false);
             resultSet = stmt.executeQuery();
             ArrayList<Notificacao> notificacoes= new ArrayList();
             Notificacao notificacao;

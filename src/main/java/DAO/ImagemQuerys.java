@@ -5,15 +5,12 @@
  */
 package DAO;
 
-import Model.usuario.Administrador;
-import Model.usuario.Comum;
-import Model.usuario.UsuarioGenerico;
+
 import Model.usuario.UsuarioLogado;
 import business.MudaVisibilidadeArquivo;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  *

@@ -20,11 +20,8 @@ import View.PrincipalView;
 import business.MudaVisibilidadeArquivo;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -34,6 +31,7 @@ import javax.swing.JOptionPane;
 public class PrincipalPresenter {
     private PrincipalView view;
     private PrincipalState state;
+    private String path;
     private Imagem imagem;
     private Queue<MementoImagem> historico;
     //private String ImagemAtual;
@@ -90,7 +88,10 @@ public class PrincipalPresenter {
             public void actionPerformed(ActionEvent e) {
                     
                 BuscaImagensPresenter presenter = new BuscaImagensPresenter();
-                String nomeImagem=presenter.exibirImagem();
+                String[] retorno=presenter.exibirImagem();
+                String nomeImagem=retorno[1];
+                path=retorno[0];        
+                
                 imagem = new ProxyImage(nomeImagem, view.getjLabelImagem().getWidth(), view.getjLabelImagem().getHeight());
                 
                 if(imagem.visualizarImagem(view)){
@@ -169,7 +170,7 @@ public class PrincipalPresenter {
                     dao.excluirImagem(imagem.getPath());
                     historico.add(dao.salvar(imagem.getPath()));
                     view.getjButtonDesfazer().setEnabled(true);
-                    MudaVisibilidadeArquivo visibilidade=new MudaVisibilidadeArquivo(".\\imagens\\comida\\"+imagem.getPath());
+                    MudaVisibilidadeArquivo visibilidade=new MudaVisibilidadeArquivo(path+imagem.getPath());
                     visibilidade.setHiddenAttrib();
                     view.getjLabelImagem().setIcon(null);
                     JOptionPane.showMessageDialog(null, "Imagem Excluída");
@@ -207,11 +208,12 @@ public class PrincipalPresenter {
                 if(UsuarioLogado.getInstancia().getNivel().equals("comum")){      
                     NotificacoesPresenter presenter = new NotificacoesPresenter(false);
                 }else{
-                    NotificacoesPresenter presenter = new NotificacoesPresenter(true);
+                    NotificacoesPresenter presenter = new NotificacoesPresenter(true);                    
                 }
                 
             }
         });
+        
     }
     
     public void obterNotificações(){
@@ -225,5 +227,8 @@ public class PrincipalPresenter {
             this.view.getjButtonNotificacoes().setBackground(color);
             this.view.getjButtonNotificacoes().setText("Notificações");
         }
+        
+        this.view.getjButtonNotificacoes().revalidate();
+        this.view.update(this.view.getjButtonNotificacoes().getGraphics());
     }
 }

@@ -8,6 +8,10 @@ package Presenter.login;
 
 import DAO.IDAOUsuario;
 import DAO.UsuarioQuerys;
+import Model.usuario.FactoryUsuario;
+import Model.usuario.Logado;
+import Model.usuario.UsuarioGenerico;
+import Presenter.principal.PrincipalPresenter;
 import View.CadastroView;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -33,8 +37,11 @@ public class CadastroPresenter {
             public void actionPerformed(ActionEvent e) {
                 IDAOUsuario dao = new UsuarioQuerys();
                 if(view.getjTextFieldSenha().getText().equals(view.getjTextFieldConfirmarSenha().getText())){
-                    dao.addUsuario(view.getjTextFieldNomeUsuario().getText(), view.getjTextFieldSenha().getText(), "administrador");
+                    FactoryUsuario factory = new Logado();
+                    UsuarioGenerico usuario = factory.criarUsuario(view.getjTextFieldNomeUsuario().getText(), view.getjTextFieldSenha().getText(), "administrador");
+                    dao.addUsuario(usuario.getLogin(), usuario.getSenha(), usuario.getNivel());
                     view.setVisible(false);
+                    new PrincipalPresenter();  
                 }else{
                     view.getjLabelErro().setForeground(Color.red);
                     view.getjLabelErro().setText("Confirme Sua Senha");

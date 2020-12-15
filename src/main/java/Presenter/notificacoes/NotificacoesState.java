@@ -10,15 +10,15 @@ import DAO.NotificacaoQuerys;
 import Model.models.Notificacao;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.MouseEvent;
+
 import java.util.ArrayList;
-import javax.swing.JPanel;
+
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
+
 
 /**
  *

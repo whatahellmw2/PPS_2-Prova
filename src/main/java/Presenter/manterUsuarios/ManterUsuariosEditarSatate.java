@@ -7,7 +7,7 @@ package Presenter.manterUsuarios;
 
 import DAO.IDAOUsuario;
 import DAO.UsuarioQuerys;
-import javax.swing.JTable;
+
 
 /**
  *

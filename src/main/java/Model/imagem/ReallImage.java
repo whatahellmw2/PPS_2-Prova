@@ -5,13 +5,11 @@
  */
 package Model.imagem;
 
-import DAO.IDAONotificacao;
-import DAO.NotificacaoQuerys;
-import Presenter.imagens.BuscaImagensPresenter;
+
 import View.PrincipalView;
 import java.awt.Image;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -24,13 +22,10 @@ public class ReallImage implements Imagem{
     public String getPath() {
         return path;
     }
-
     public ReallImage(String path, Image image) {
         this.path = path;
         this.image=image;
     }
-
-
     @Override
     public boolean visualizarImagem(PrincipalView view) {
          view.getjLabelImagem().setIcon(new ImageIcon(image));

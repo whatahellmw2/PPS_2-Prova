@@ -5,7 +5,7 @@
  */
 package Model.imagem;
 
-import Presenter.manterUsuarios.VisualizarUsuariosPresenter;
+
 import View.PrincipalView;
 
 /**

@@ -9,14 +9,9 @@ import DAO.IDAOImagens;
 import DAO.IDAONotificacao;
 import DAO.ImagemQuerys;
 import DAO.NotificacaoQuerys;
-import java.awt.Color;
-import java.awt.Component;
+
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *

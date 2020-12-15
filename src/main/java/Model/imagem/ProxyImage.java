@@ -6,14 +6,14 @@
 package Model.imagem;
 
 import DAO.IDAOImagens;
-import DAO.IDAONotificacao;
+
 import DAO.ImagemQuerys;
-import DAO.NotificacaoQuerys;
+
 import Model.usuario.UsuarioLogado;
 import View.PrincipalView;
 import java.awt.Image;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
+
 
 /**
  *

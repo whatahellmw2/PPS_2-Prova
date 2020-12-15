@@ -28,9 +28,7 @@ public class NotificacoesPresenter {
         this.view.setLocationRelativeTo(null);
         this.view.setVisible(true);
     }
-    public void iniciarView(){
-       
-    }
+
     public void changeState(NotificacoesState state){
         this.state=state; 
     }

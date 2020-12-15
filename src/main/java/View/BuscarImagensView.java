@@ -5,9 +5,13 @@
  */
 package View;
 
+import business.Teste;
 import java.awt.FileDialog;
+import java.awt.Window;
 import java.io.File;
 import java.io.FilenameFilter;
+import javax.swing.JFrame;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -17,19 +21,34 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class BuscarImagensView {
     FileDialog fd;
     public BuscarImagensView() {
-            fd = new FileDialog(new javax.swing.JFrame(), "Escolha uma Imagem", FileDialog.LOAD);
+            JFrame frame = new javax.swing.JFrame();
+            
+            fd = new FileDialog(frame, "Escolha uma Imagem", FileDialog.LOAD);
+            
+            
             fd.setDirectory(".\\imagens\\comida");           
             fd.setMultipleMode(false);
             
             //FileNameExtensionFilter filter = new FileNameExtensionFilter("imagens", "jpg","png")
-            fd.setFilenameFilter(new FilenameFilter() {
+            
+           FilenameFilter filtro = new FilenameFilter() {
                 @Override
                 public boolean accept(File dir, String name) {                    
-                    return name.endsWith(".jpg")|| name.endsWith(".png");
+                    return (name.endsWith(".jpg")|| name.endsWith(".png") &
+                            (dir.equals(".\\imagens\\comida")|| dir.equals(".\\imagens\\pessoas")||dir.equals(".\\imagens\\animais")));
                 }
-            });
+            };
             
-           
+            Teste teste = new Teste();
+            fd.setFilenameFilter(filtro);
+            fd.getFilenameFilter();
+            fd.revalidate();           
+            fd.update(fd.getGraphics());            
+            frame.revalidate();
+            frame.update(frame.getGraphics());
+            
+            
+
     }
 
     public FileDialog getFd() {
